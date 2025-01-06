@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Searchable Table</title>
+        <link rel="stylesheet"
+            href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+
+            .container {
+                width: 90%;
+                margin: auto;
+                margin-top: 20px;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            h1 {
+                color: #005f73;
+            }
+
+            #search-container {
+                margin-bottom: 20px;
+            }
+
+            #search-container input {
+                padding: 10px;
+                width: 100%;
+                border: 2px solid #88bedc;
+                border-radius: 5px;
+            }
+
+            #valuesTable {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            #valuesTable thead {
+                background-color: #88bedc;
+                color: #fff;
+            }
+
+            #valuesTable th,
+            #valuesTable td {
+                text-align: left;
+                padding: 12px 15px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            #valuesTable tr:nth-child(even) {
+                background-color: #e0f7ff;
+            }
+
+            #valuesTable tr:hover {
+                background-color: #b3e5fc;
+            }
+
+            .dataTables_filter {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Player Values</h1>
+            <div id="search-container">
+                <input type="text" id="universal-search"
+                    placeholder="Search...">
+            </div>
+            <div id="table-container"></div> <!-- Table loads here -->
+        </div>
+
+        <!-- Include jQuery and DataTables -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script
+            src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                fetch("table.html")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        document.getElementById("table-container").innerHTML = html;
+
+                        // Initialize DataTables after inserting the table
+                        setTimeout(function () {
+                            if (document.getElementById("valuesTable")) {
+                                var table = $('#valuesTable').DataTable({
+                                    "pagingType": "full_numbers"
+                                });
+
+                                document.getElementById('universal-search').addEventListener("keyup", function () {
+                                    table.search(this.value).draw();
+                                });
+                            } else {
+                                console.error("DataTables error: #valuesTable not found.");
+                            }
+                        }, 300);
+                    })
+                    .catch(error => console.error("Error loading table.html:", error));
+            });
+        </script>
+
+    </body>
+
+</html>
