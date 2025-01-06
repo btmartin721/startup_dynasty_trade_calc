@@ -38,4 +38,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger Netlify Deployment
-        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/YOUR_NETLIFY_BUILD_HOOK
+        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/677b5bcdb260b584b9be506d
