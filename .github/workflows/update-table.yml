@@ -36,7 +36,7 @@ jobs:
           git commit -m "Automated update of table.html"
           git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }}  # Ensure GH_PAT is used
 
       - name: Trigger Netlify Deployment
         run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/677b5bcdb260b584b9be506d
