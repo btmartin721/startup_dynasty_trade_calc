@@ -1,0 +1,41 @@
+name: Update Table and Deploy
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"  # Runs every 6 hours
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  update-table:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Install dependencies if needed
+
+      - name: Run data processing scripts
+        run: |
+          python script1.py  # First script to fetch data
+          python script2.py  # Second script to process and generate table.html
+
+      - name: Commit and push updated table
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add table.html
+          git commit -m "Automated update of table.html"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Netlify Deployment
+        run: curl -X POST -d '{}' https://api.netlify.com/build_hooks/YOUR_NETLIFY_BUILD_HOOK
