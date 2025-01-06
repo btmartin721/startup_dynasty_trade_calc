@@ -24,8 +24,8 @@ jobs:
 
       - name: Run data processing scripts
         run: |
-          python script1.py  # First script to fetch data
-          python script2.py  # Second script to process and generate table.html
+          python get_ktc.py  # First script to fetch data
+          python process_ktc.py  # Second script to process and generate table.html
 
       - name: Commit and push updated table
         run: |
