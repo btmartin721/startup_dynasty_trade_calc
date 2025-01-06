@@ -101,8 +101,10 @@
                         setTimeout(function () {
                             if (document.getElementById("valuesTable")) {
                                 var table = $('#valuesTable').DataTable({
-                                    "pagingType": "full_numbers"
+                                    "pagingType": "full_numbers",
+                                    "ordering": false  // Disables sorting
                                 });
+
 
                                 document.getElementById('universal-search').addEventListener("keyup", function () {
                                     table.search(this.value).draw();
